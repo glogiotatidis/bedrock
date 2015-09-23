@@ -20,19 +20,19 @@ COPY ./bin/peep.py /app/bin/peep.py
 RUN ./bin/peep.py install --no-cache-dir -r requirements/dev.txt
 RUN ./bin/peep.py install --no-cache-dir -r requirements/prod.txt
 RUN ./bin/peep.py install --no-cache-dir -r requirements/docker.txt
-COPY . /app
-
-RUN git rev-parse HEAD > static/revision.txt
-RUN ./manage.py collectstatic --noinput
-RUN ./manage.py update_product_details
 
 # Cleanup
-RUN apt-get purge -y python-dev build-essential libxml2-dev libxslt1-dev libmemcached-dev git
+RUN apt-get purge -y python-dev build-essential libxml2-dev libxslt1-dev libmemcached-dev
 RUN apt-get autoremove -y
 RUN rm -rf /var/lib/{apt,dpkg,cache,log} /usr/share/doc /usr/share/man /tmp/* /var/cache/* /app/.git
-RUN find /app -name *.pyc -delete
-RUN ./docker/softlinkstatic.py
 
 # Change User
-RUN chown webdev.webdev -R .
+RUN chown webdev.webdev -R /app
 USER webdev
+
+COPY . /app
+# TODO
+# RUN git rev-parse HEAD > static/revision.txt
+RUN PYTHONDONTWRITEBYTECODE=1 ./manage.py collectstatic --noinput
+RUN PYTHONDONTWRITEBYTECODE=1 ./manage.py update_product_details
+RUN ./docker/softlinkstatic.py
