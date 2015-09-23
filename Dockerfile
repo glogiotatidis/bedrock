@@ -27,10 +27,10 @@ RUN apt-get autoremove -y
 RUN rm -rf /var/lib/{apt,dpkg,cache,log} /usr/share/doc /usr/share/man /tmp/* /var/cache/* /app/.git
 
 # Change User
-RUN chown webdev.webdev -R /app
-USER webdev
 
 COPY . /app
+RUN chown webdev.webdev -R /app
+USER webdev
 # TODO
 # RUN git rev-parse HEAD > static/revision.txt
 RUN PYTHONDONTWRITEBYTECODE=1 ./manage.py collectstatic --noinput
