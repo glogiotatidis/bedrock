@@ -25,7 +25,7 @@ $DOCKER_COMPOSE build
 # Start the database and give it some time to boot up
 $DOCKER_COMPOSE up -d db
 
-docker save `echo jenkins${JOB_NAME}${BUILD_NUMBER}| sed s/_//g`_web | sudo docker-squash -t `echo jenkins${JOB_NAME}${BUILD_NUMBER}| sed s/_//g`_web | docker load
+#docker save `echo jenkins${JOB_NAME}${BUILD_NUMBER}| sed s/_//g`_web | sudo docker-squash -t `echo jenkins${JOB_NAME}${BUILD_NUMBER}| sed s/_//g`_web | docker load
 
 
 $DOCKER_COMPOSE run -T web ./manage.py test
