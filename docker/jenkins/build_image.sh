@@ -9,4 +9,5 @@ cat docker/dockerfiles/${DOCKERFILE} | envsubst > Dockerfile
 DOCKER_IMAGE_TAG=${DOCKER_REPOSITORY}:${GIT_COMMIT}
 docker build -t $DOCKER_IMAGE_TAG .
 
+# TODO only run docker-squash if image is new
 docker save $DOCKER_IMAGE_TAG  | sudo docker-squash -t $DOCKER_IMAGE_TAG | docker load
