@@ -9,7 +9,7 @@ set -xe
 DOCKER_IMAGE_TAG=${DOCKER_REPOSITORY}:${GIT_COMMIT}
 
 # Used to trigger downstream Jenkins jobs
-TRIGGER_FILE=locale/.docker-updated
+TRIGGER_FILE=.docker-updated
 rm -rf $TRIGGER_FILE
 
 if [[ $BUILD_CAUSE == "TIMERTRIGGER" ]]
