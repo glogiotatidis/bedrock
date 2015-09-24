@@ -11,4 +11,4 @@ RUN ./docker/softlinkstatic.py
 
 # Change User
 RUN chown webdev.webdev -R .
-USER webde
+USER webdev
