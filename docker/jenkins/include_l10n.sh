@@ -6,8 +6,6 @@
 #
 set -xe
 
-DOCKER_IMAGE_TAG=${DOCKER_REPOSITORY}:${GIT_COMMIT}
-
 # Used to trigger downstream Jenkins jobs
 TRIGGER_FILE=.docker-updated
 rm -rf $TRIGGER_FILE
@@ -20,8 +18,14 @@ then
         # No updates, just exit
         echo "No locale updates"
         exit 0;
+    else
+        # Set GIT_COMMIT to the current deployed to prod commit
+        COMMIT_URL=${COMMIT_URL:-https://www.mozilla.org/static/revision.txt}
+        GIT_COMMIT=`curl  $COMMIT_URL 2> /dev/null`
     fi
 fi
+
+DOCKER_IMAGE_TAG=${DOCKER_REPOSITORY}:${GIT_COMMIT}
 
 touch $TRIGGER_FILE
 
