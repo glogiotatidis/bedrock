@@ -14,12 +14,11 @@ then
     fi
 fi
 
-
-# TODO comment
+# Workaround to ignore mtime until we upgrade to Docker 1.8
+# See https://github.com/docker/docker/pull/12031
 find . -newerat 20140101 -exec touch -t 201401010000 {} \;
 
 cat docker/dockerfiles/${DOCKERFILE} | envsubst > Dockerfile
 docker build -t $DOCKER_IMAGE_TAG .
 
-# TODO only run docker-squash if image is new
 docker save $DOCKER_IMAGE_TAG  | sudo docker-squash -t $DOCKER_IMAGE_TAG | docker load
